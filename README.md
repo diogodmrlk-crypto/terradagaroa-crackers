@@ -4,13 +4,13 @@ Workspace visual em React + TypeScript para transformar URLs autorizadas em pont
 
 ## O que existe nesta versão
 
-- **Basic clone:** fluxo de análise de uma página e download de um HTML starter local.
-- **Avançado clone:** modo visual para mapear rotas, estrutura e assets de uma propriedade administrada pelo usuário.
+- **Basic clone:** coleta a página principal e gera um ZIP real com o HTML encontrado.
+- **Avançado clone:** rastreia até 18 páginas e 80 assets internos do mesmo domínio, reescreve links locais e gera um ZIP real.
 - Interface responsiva, navegação por âncoras, feedback de estados e preview.
 - PWA com `manifest.webmanifest`, service worker e ícone Terradagaroa.
-- Zero autenticação, banco de dados, API da Manus ou variáveis de ambiente.
+- Zero autenticação, banco de dados, API da Manus ou variáveis de ambiente; o endpoint próprio está em `api/clone.ts`.
 
-> Importante: esta versão é deliberadamente frontend-only. Um clone completo de páginas, imagens, sons e arquivos exige um backend/proxy controlado pelo proprietário do conteúdo, além de tratamento de CORS, robots.txt, limites de tráfego e direitos autorais. Use apenas em sites próprios ou com autorização expressa.
+> Importante: o crawler é limitado ao mesmo domínio, bloqueia endereços privados, limita páginas/assets/tamanho e só inicia com confirmação de autorização. Sites com login, bloqueio anti-bot ou conteúdo renderizado exclusivamente por JavaScript podem não ser exportados integralmente. Use apenas em sites próprios ou com autorização expressa.
 
 ## Rodar localmente
 
