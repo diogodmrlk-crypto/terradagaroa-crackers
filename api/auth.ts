@@ -23,7 +23,7 @@ async function load(): Promise<Store> {
 }
 async function save(store: Store) {
   const content = `${JSON.stringify(store, null, 2)}\n`
-  if (!githubToken) { await writeFile(file, content, 'utf8'); memoryStore.accesses = store.accesses; return }
+  if (!githubToken) { if (process.env.VERCEL) throw new Error('GITHUB_TOKEN ausente'); await writeFile(file, content, 'utf8'); memoryStore.accesses = store.accesses; return }
   const current = await githubRequest<GithubFile>('GET', `https://api.github.com/repos/${githubRepo}/contents/${githubPath}`)
   await githubRequest('PUT', `https://api.github.com/repos/${githubRepo}/contents/${githubPath}`, { message: 'chore: update access registry', content: Buffer.from(content).toString('base64'), sha: current.sha })
   memoryStore.accesses = store.accesses
