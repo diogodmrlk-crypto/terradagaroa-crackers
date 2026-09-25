@@ -20,6 +20,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (body.action === 'logout') { setCookie(res, 'tg_session', '', 0); return json(res, 200, { ok: true }) }
     if (body.action === 'me') return current ? json(res, 200, { ok: true, user: current }) : json(res, 401, { error: 'Não autenticado.' })
+    if (body.action === 'restore') {
+      const result = await edge('login', { id: String(body.id || '').trim(), deviceToken: jar.tg_device })
+      setCookie(res, 'tg_device', result.deviceToken, 60 * 60 * 24 * 365 * 2); setCookie(res, 'tg_session', token({ id: result.id, role: 'user' })); return json(res, 200, { ok: true, user: { id: result.id, role: 'user' } })
+    }
     if (body.action === 'list' || body.action === 'create' || body.action === 'delete' || body.action === 'reset-device') {
       if (!current || current.role !== 'admin') return json(res, 403, { error: 'Acesso admin necessário.' })
       return json(res, 200, await edge(body.action, body))
