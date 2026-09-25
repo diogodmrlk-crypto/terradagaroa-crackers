@@ -8,9 +8,9 @@ Workspace em React + TypeScript para exportar sites autorizados em ZIP, com logi
 - Login admin na mesma tela usando `devterradagaroa` + chave administrativa.
 - Painel para criar IDs permanentes ou com expiração.
 - Reset e exclusão de acessos.
-- Primeiro dispositivo vinculado por cookie HTTP-only e hash no arquivo JSON.
+- Primeiro dispositivo vinculado por cookie HTTP-only e hash persistido no Supabase.
 - Basic clone e Avançado clone com páginas, assets, HTML, scripts, sitemaps e subdomínios autorizados.
-- PWA, sem banco, sem API da Manus e sem autenticação externa.
+- PWA, sem API da Manus e sem autenticação externa.
 
 ## Configuração admin
 
@@ -19,15 +19,15 @@ Defina na Vercel:
 ```text
 ADMIN_SECRET=uma-chave-forte
 SESSION_SECRET=outro-segredo-forte
-GITHUB_TOKEN=token_com_permissao_de_leitura_e_escrita_no_repositorio
-GITHUB_REPO=diogodmrlk-crypto/terradagaroa-crackers
+SUPABASE_URL=https://zrjfzxqkpjhsisbjvpbx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=chave_service_role_do_projeto
 ```
 
 Se nenhuma variável for definida, o modo de demonstração usa `devterradagaroa-admin` como chave admin. Não use esse fallback em produção.
 
-## Armazenamento JSON
+## Armazenamento Supabase
 
-Os acessos ficam em `data/access.json`. Localmente, o arquivo é atualizado normalmente. Na Vercel, quando `GITHUB_TOKEN` está configurado, o endpoint lê e grava o JSON pela GitHub Contents API, cria um commit automático e o próximo login sempre encontra o ID recém-criado. Sem `GITHUB_TOKEN`, a aplicação usa apenas o arquivo local/memória da função e os cadastros não são confiáveis após reinicializações.
+Os acessos ficam em `public.terradagaroa_accesses` no projeto Supabase `zrjfzxqkpjhsisbjvpbx`. A tabela foi criada com RLS ativado. O backend usa `SUPABASE_SERVICE_ROLE_KEY` somente no servidor da Vercel para consultar, criar, excluir, liberar dispositivos e validar o login. Nunca coloque essa chave no frontend.
 
 ## Rodar e publicar
 
