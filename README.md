@@ -19,13 +19,15 @@ Defina na Vercel:
 ```text
 ADMIN_SECRET=uma-chave-forte
 SESSION_SECRET=outro-segredo-forte
+GITHUB_TOKEN=token_com_permissao_de_leitura_e_escrita_no_repositorio
+GITHUB_REPO=diogodmrlk-crypto/terradagaroa-crackers
 ```
 
 Se nenhuma variável for definida, o modo de demonstração usa `devterradagaroa-admin` como chave admin. Não use esse fallback em produção.
 
 ## Armazenamento JSON
 
-Os acessos iniciais ficam em `data/access.json`. Localmente, o arquivo é atualizado normalmente. Em funções serverless da Vercel, o filesystem não é persistente: cadastros feitos em produção podem desaparecer quando a função reiniciar. Para uso real e permanente, o endpoint deve ser migrado para um banco persistente mantendo o mesmo contrato de API.
+Os acessos ficam em `data/access.json`. Localmente, o arquivo é atualizado normalmente. Na Vercel, quando `GITHUB_TOKEN` está configurado, o endpoint lê e grava o JSON pela GitHub Contents API, cria um commit automático e o próximo login sempre encontra o ID recém-criado. Sem `GITHUB_TOKEN`, a aplicação usa apenas o arquivo local/memória da função e os cadastros não são confiáveis após reinicializações.
 
 ## Rodar e publicar
 
