@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { strToU8, zipSync } from 'fflate'
+import { verifySession } from './auth'
 
 type Item = { requestedUrl: string; url: string; path: string; bytes: Uint8Array; contentType: string }
 const MAX_PAGES = 40
@@ -69,6 +70,8 @@ function jsonError(response: VercelResponse, status: number, message: string) { 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return jsonError(res, 405, 'Use POST.')
+  const cookies = Object.fromEntries((req.headers.cookie || '').split(';').map((part) => part.trim().split('=').map(decodeURIComponent)).filter(([key]) => key))
+  if (!verifySession(cookies.tg_session)) return jsonError(res, 401, 'Faça login antes de iniciar uma clonagem.')
   const { url: rawUrl, mode = 'basic', consent } = req.body || {}
   if (!consent) return jsonError(res, 400, 'Confirme que você tem autorização para exportar este site.')
   if (typeof rawUrl !== 'string' || !['basic', 'advanced'].includes(mode)) return jsonError(res, 400, 'URL ou modo inválido.')
