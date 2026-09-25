@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return json(res, 200, await edge(body.action, body))
     }
     const id = String(body.id || '').trim(); const secret = String(body.secret || '')
-    if (id === ADMIN_ID) { if (secret !== ADMIN_SECRET) return json(res, 401, { error: 'Chave admin inválida.' }); setCookie(res, 'tg_session', token({ id: ADMIN_ID, role: 'admin' })); return json(res, 200, { ok: true, user: { id: ADMIN_ID, role: 'admin' } }) }
+    if (id.toLowerCase() === ADMIN_ID) { if (secret !== ADMIN_SECRET) return json(res, 401, { error: 'Chave admin inválida.' }); setCookie(res, 'tg_session', token({ id: ADMIN_ID, role: 'admin' })); return json(res, 200, { ok: true, user: { id: ADMIN_ID, role: 'admin' } }) }
     const result = await edge('login', { id, deviceToken: jar.tg_device })
     setCookie(res, 'tg_device', result.deviceToken, 60 * 60 * 24 * 365 * 2); setCookie(res, 'tg_session', token({ id: result.id, role: 'user' })); return json(res, 200, { ok: true, user: { id: result.id, role: 'user' } })
   } catch (error) { const status = typeof error === 'object' && error && 'status' in error ? Number(error.status) : 500; return json(res, status, { error: error instanceof Error ? error.message : 'Falha na autenticação.' }) }

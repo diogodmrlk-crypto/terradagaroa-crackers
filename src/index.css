@@ -7,3 +7,5 @@
 @media(max-width:760px){.auth-card{padding:25px}.auth-card h1{font-size:45px}.admin-panel{top:75px;right:15px;padding:18px}.admin-form{grid-template-columns:1fr}.admin-form .primary-button{width:100%;justify-content:center}.access-row{align-items:flex-start;flex-direction:column}.row-actions{width:100%}.row-actions button{flex:1}.topbar-actions .status-dot{display:flex;font-size:9px}.admin-trigger{display:none}}
 
 .topbar-actions{position:relative}.user-menu{position:absolute;right:0;top:42px;z-index:20;background:#171a16;border:1px solid #59684d;padding:6px;box-shadow:8px 8px 0 #080908}.user-menu button{display:flex;align-items:center;gap:8px;background:transparent;border:0;color:#e68163;padding:9px 13px;font:11px var(--mono);cursor:pointer;white-space:nowrap}.user-menu button:hover{background:#252b22;color:#fff}
+
+.admin-detected{display:flex;align-items:center;gap:7px;color:var(--acid);font:10px var(--mono);background:rgba(201,255,69,.08);border:1px solid #415131;padding:8px 10px;margin:2px 0 4px}.admin-detected svg{flex:none}
