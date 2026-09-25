@@ -20,14 +20,13 @@ Defina na Vercel:
 ADMIN_SECRET=uma-chave-forte
 SESSION_SECRET=outro-segredo-forte
 SUPABASE_URL=https://zrjfzxqkpjhsisbjvpbx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=chave_service_role_do_projeto
 ```
 
 Se nenhuma variável for definida, o modo de demonstração usa `devterradagaroa-admin` como chave admin. Não use esse fallback em produção.
 
 ## Armazenamento Supabase
 
-Os acessos ficam em `public.terradagaroa_accesses` no projeto Supabase `zrjfzxqkpjhsisbjvpbx`. A tabela foi criada com RLS ativado. O backend usa `SUPABASE_SERVICE_ROLE_KEY` somente no servidor da Vercel para consultar, criar, excluir, liberar dispositivos e validar o login. Nunca coloque essa chave no frontend.
+Os acessos ficam em `public.terradagaroa_accesses` no projeto Supabase `zrjfzxqkpjhsisbjvpbx`. A tabela foi criada com RLS ativado. A Edge Function `terradagaroa-auth` consulta e altera a tabela dentro do Supabase; a Vercel não precisa de `service_role` nem `sb_secret`.
 
 ## Rodar e publicar
 
